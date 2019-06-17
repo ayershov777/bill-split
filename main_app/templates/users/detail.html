@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1>Hello {{ user.username }}</h1>
+    <a href="{% url 'logout' %}">logout</a>
+
+    {% if groups.count == 0 %}
+        <p>You have no groups!</p>
+    {% else %}
+        <ul>
+        {% for group in groups %}
+            <li>{{ group.title }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ group_create_form.as_p }}
+        <input type="submit" class="btn" value="create new group">
+    </form>
+
+{% endblock %}

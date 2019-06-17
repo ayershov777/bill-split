@@ -2,11 +2,16 @@
 {% block content %}
     <h1>Sign Up</h1>
 
-    {% if error_message %}<p class="red-text">{{ error_message }}</p>{% endif %}
-
     <form method="post" action="{% url 'signup' %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" class="btn" value="signup">
+        {% for field in form %}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+        </div>
+        {% endfor %}
+        <input type="submit" value="register">
     </form>
+
+    
 {% endblock %}
