@@ -9,7 +9,9 @@
     {% else %}
         <ul>
         {% for group in groups %}
-            <li>{{ group.title }}</li>
+            <li>
+                <a href="{% url 'group_detail' group.id %}">{{ group.title }}</a>
+            </li>
         {% endfor %}
         </ul>
     {% endif %}

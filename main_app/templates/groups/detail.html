@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>{{ group.title }}</h1>
+
+<ul>
+    {% for user in users %}
+        <li>
+            {{ user.username }}
+        </li>
+    {% endfor %}
+</ul>
+
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    <input type="submit" value="add user">
+</form>
+
+
+
+{% endblock %}
