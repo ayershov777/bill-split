@@ -4,7 +4,9 @@ from django.contrib.auth import login
 from django.views.generic.edit import CreateView
 
 from .models import User, Group
-from .forms import SignupForm, GroupCreateForm
+from .forms import SignupForm, GroupCreateForm, AddUserForm
+
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     if(request.user.is_authenticated):
@@ -20,7 +22,6 @@ def home(request):
     
 
 def signup(request):
-
     if request.method == 'POST':
         # This is how to create a 'user' form object
         # that includes the data from the browser
@@ -44,3 +45,24 @@ class GroupCreate(CreateView):
     model = Group
     fields = ['title', 'users']
     success_url = '/'
+
+@login_required
+def group_detail(request, id):
+    if request.method == 'POST':
+        username = request.POST.get("username", "")
+        userCount = User.objects.filter(username=username).count()
+        if userCount:
+            user = User.objects.get(username=username)
+            group = Group.objects.get(id=id)
+            group.users.add(user)
+            return redirect('group_detail', id)
+        pass
+    else:
+        user_form = AddUserForm
+        group = Group.objects.get(id=id)
+        users = group.users.all()
+        return render(request, 'groups/detail.html', {
+            'user_form': user_form,
+            'group': group,
+            'users': users
+        })
