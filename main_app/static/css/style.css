@@ -6,10 +6,12 @@
 body{
     background-color: rgb(236, 245, 245);
     max-height: 100vh;
+    
 }
 main{
     width: 100%;
     display: flex;
+    flex: 1 0 auto;
 }
 #main-page{
     flex: 1 0 auto;
