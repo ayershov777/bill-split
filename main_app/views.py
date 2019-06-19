@@ -11,7 +11,6 @@ def home(request):
     if(request.user.is_authenticated):
         groups = User.objects.get(id=request.user.id).group_set.all()
         group_create_form = GroupCreateForm()
-        print(len(groups))
         return render(request, 'users/detail.html', {
             'groups': groups,
             'group_create_form': group_create_form
@@ -39,10 +38,12 @@ def signup(request):
     context = {'form': form}
     return render(request, 'registration/signup.html', context)
 
-class GroupCreate(CreateView):
-    model = Group
-    fields = ['title', 'users']
-    success_url = '/'
+def group_create(request):
+    title = request.POST.get("title", None)
+    group = Group.objects.create(title=title)
+    group.users.add(request.user)
+    return redirect(f'/groups/{group.id}')
+
 
 @login_required
 def group_detail(request, id):
@@ -76,7 +77,6 @@ def search_users(request, id):
 
     if username != "":
         users = list(User.objects.exclude(username__in=Group.objects.get(id=id).users.all().values_list('username')).filter(username__icontains=username))
-        print(Group.objects.get(id=id).users.all().values_list('username'))
         for user in users:
             usernames.append(user.username)
 

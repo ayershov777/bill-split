@@ -16,9 +16,10 @@
         </ul>
     {% endif %}
 
-    <form method="post" action="">
+    <form action="{% url 'group_create' %}" method="post" autocomplete="off">
         {% csrf_token %}
-        {{ group_create_form.as_p }}
+        {{ group_create_form.title.label }}
+        {{ group_create_form.title }}
         <input type="submit" class="btn" value="create new group">
     </form>
 
