@@ -1,23 +1,81 @@
 {% extends 'base.html' %}
 {% block content %}
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
-<h1>{{ group.title }}</h1>
+    <h1>{{ group.title }}</h1>
 
-<ul>
-    {% for user in users %}
-        <li>
-            {{ user.username }}
-        </li>
-    {% endfor %}
-</ul>
+    <ul>
+        {% for user in users %}
+            <li>
+                {{ user.username }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <select id="editable-select">
+    </select>
+
+    <button id="submit-usernames" class="btn">send</button>
+
+    <ul id="staged-users">
+    </ul>
+
+{% block javascript %}
+    <script>
+        $(()=>{
+            var csrftoken = Cookies.get('csrftoken');
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+
+            $('#editable-select').editableSelect().on('select.editable-select', function(e, li) {
+                $('#staged-users').append(`<li>${li[0].textContent}</li>`)
+            });
 
 
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ user_form.as_p }}
-    <input type="submit" value="add user">
-</form>
+            $("#editable-select").on('change input', () => {
+                $.ajax({
+                    url: "{% url 'search_users' group.id %}",
+                    data: { username: $(this).val() }
+                }).done(response => {
+                    usernames = []
+                    $('.es-list').children().toArray().forEach((e)=>{
+                        usernames.push(e.textContent);
+                    });
 
+                    response.forEach(username => {
+                        if(!usernames.includes(username))
+                            $('#editable-select').editableSelect('add', username);
+                    });
+                });
+            });
 
-
+            $('#submit-usernames').on('click', e => {
+                usernames = []
+                $('#staged-users').children().toArray().forEach(p => {
+                    usernames.push(p.textContent);
+                })
+                usernames = usernames.join('-');
+                $.ajax({
+                    url: "{% url 'group_detail' group.id %}",
+                    method: "POST",
+                    data: {
+                        'username' : usernames
+                    }
+                }).done(response => {
+                    console.log(response);
+                    location.href = '/groups/{{group.id}}'
+                });
+            });
+        });
+    </script>
+{% endblock %}
 {% endblock %}
