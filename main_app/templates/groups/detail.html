@@ -6,9 +6,7 @@
 
     <ul>
         {% for user in users %}
-            <li>
-                {{ user.username }}
-            </li>
+            <li>{{ user.username }}</li>
         {% endfor %}
     </ul>
 
@@ -37,26 +35,35 @@
             });
 
             $('#editable-select').editableSelect().on('select.editable-select', function(e, li) {
+                $('#editable-select').val("");
                 $('#staged-users').append(`<li>${li[0].textContent}</li>`)
             });
 
+            $('#editable-select').editableSelect().on('show.editable-select', function(e, li) {
+                console.log('test')
+            });
 
-            $("#editable-select").on('change input', function () {
-                console.log()
-                $.ajax({
-                    url: "{% url 'search_users' group.id %}",
-                    data: { username: $(this).val() }
-                }).done(response => {
-                    usernames = []
-                    $('.es-list').children().toArray().forEach((e)=>{
-                        usernames.push(e.textContent);
-                    });
+            $('#editable-select').on('change input', function () {
+                search_length = $('#editable-select').val().length
+                if(search_length === 0)
+                    $('#editable-select').editableSelect('hide');
+                else if(search_length >= 3)
+                    $.ajax({
+                        url: "{% url 'search_users' group.id %}",
+                        data: { username: $(this).val() }
+                    }).done(response => {
+                        usernames = []
+                        $('.es-list').children().toArray().forEach((e)=>{
+                            usernames.push(e.textContent);
+                        });
 
-                    response.forEach(username => {
-                        if(!usernames.includes(username))
-                            $('#editable-select').editableSelect('add', username);
+                        response.forEach(username => {
+                            if(!usernames.includes(username))
+                                $('#editable-select').editableSelect('add', username);
+                        });
+
+                        $('#editable-select').editableSelect('show');
                     });
-                });
             });
 
             $('#submit-usernames').on('click', e => {
@@ -74,6 +81,7 @@
                     }
                 }).done(response => {
                     location.href = '/groups/{{group.id}}'
+
                 });
             });
         });
