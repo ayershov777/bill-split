@@ -1,0 +1,109 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: rgb(236, 245, 245);
+    max-height: 100vh;
+}
+main{
+    width: 100%;
+    display: flex;
+}
+#main-page{
+    flex: 1 0 auto;
+    background-image: url(https://i.imgur.com/l6YqpCN.png);
+    background-size: cover;
+    width: 100%;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: -20px 5px 0px 0px;
+}
+#heading{
+    font-family: 'Germania One', cursive;
+    color: rgb(24, 19, 95);
+    font-size: 11vh;
+    margin-left: 20px;
+    
+}
+#dollar{
+    font-size: 13vh;
+}
+#tag{
+    font-family: 'Germania One', cursive;
+    color: rgb(17, 104, 78);
+    margin-top: -20px;
+    margin-left: 20px;
+    font-size: 2vw;
+
+}
+img{
+   
+    transform: rotate(35deg);
+}
+.image{
+    position: fixed;
+    bottom: 0px;
+    left: 52vw;
+    width: 60vw;
+}
+.button{
+    background-color: rgb(24, 19, 95);
+    color: white;
+    font-size: 20px;
+    width: max-content;
+    padding: 10px;
+    border-radius: 3px;
+    transition: all 0.3s ease 0s;
+}
+#signup, #login{
+    position: sticky;
+    top:40vw;
+    margin-left: 20px;
+}
+.about{
+    background-color: rgb(218, 247, 244)
+}
+#about-btn{
+    float:right;
+    margin-top:-15vh;
+    margin-right: 20px;
+    position: sticky;
+    left: 95vw;
+}
+.footer{
+    background-color: rgb(24, 19, 95);
+    font-family: 'Germania One', cursive;
+    font-size: 1vw;
+    color: white;
+    padding: 3px 0px;
+}
+@media screen and (max-width: 800px) {
+    .image{
+        display: none;
+    }
+
+    #heading{
+        font-size: 10vw;
+    }
+    #tag{
+        font-size: 4vw;
+    }
+    #dollar{
+        font-size: 13vw;
+    }
+    .footer{
+        font-size: 2vh;
+    }
+    #signup, #login{
+        position: relative;
+        top:60vw;
+    }
+    #about-btn{
+        position: sticky;
+        margin-top: -120px;
+
+    }
+}

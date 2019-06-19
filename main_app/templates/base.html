@@ -6,34 +6,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Bill Split</title>
+    <link href="https://fonts.googleapis.com/css?family=Germania+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery-editable-select.min.css' %}">
-    <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
-    <script src="{% static 'js/jquery-editable-select.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script defer src="{% static 'js/script.js'%}"></script>
+
 </head>
 <body>
-    <header class="navbar-fixed">
-        <nav>
-            <div class="nav-wrapper">
-                <ul><li><a href="/" class="left brand-logo">&nbsp;&nbsp;CatCollector</a></li></ul>
-                <ul class="right">
-                    <li><a href="{% url 'group_create' %}">Create a group</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-
-    <main class="container">
+    <main>
         {% block content %}
         {% endblock %}
     </main>
 
-    <footer class="page-footer">
-       <div class="right">All Rights Reserved, &copy; 2019 billsplit &nbsp;</div>
-    </footer>
+    <div class="footer-copyright footer">
+        <div class="container footer">
+        © 2019 Bill $plit
+        <a class="grey-text text-lighten-4 right" href="#!">Contact Us</a>
+        </div>
+    </div>
 </body>
 </html>
