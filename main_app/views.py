@@ -1,12 +1,11 @@
+from django.core import serializers
 from django.shortcuts import render, redirect
-
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
-
+from django.http import HttpResponse, JsonResponse
 from .models import User, Group
 from .forms import SignupForm, GroupCreateForm, AddUserForm
-
-from django.contrib.auth.decorators import login_required
 
 def home(request):
     if(request.user.is_authenticated):
@@ -19,7 +18,6 @@ def home(request):
         })
     else:
         return render(request, 'home.html')
-    
 
 def signup(request):
     if request.method == 'POST':
@@ -49,20 +47,37 @@ class GroupCreate(CreateView):
 @login_required
 def group_detail(request, id):
     if request.method == 'POST':
-        username = request.POST.get("username", "")
-        userCount = User.objects.filter(username=username).count()
-        if userCount:
-            user = User.objects.get(username=username)
-            group = Group.objects.get(id=id)
-            group.users.add(user)
-            return redirect('group_detail', id)
-        pass
-    else:
+        usernames = request.POST.get("username", "")
+        usernames = usernames.split('-')
+        for username in usernames:
+            userCount = User.objects.filter(username=username).count()
+            if userCount:
+                user = User.objects.get(username=username)
+                group = Group.objects.get(id=id)
+                group.users.add(user)
+        return JsonResponse({'message' : 'ok'})
+
+    group = Group.objects.get(id=id)
+    username = request.user.username
+    if group.users.filter(username=username):
         user_form = AddUserForm
-        group = Group.objects.get(id=id)
         users = group.users.all()
         return render(request, 'groups/detail.html', {
             'user_form': user_form,
             'group': group,
             'users': users
         })
+    else:
+        return HttpResponse("You can't access this page")
+
+def search_users(request, id):
+    username = request.GET.get('username', "")
+    usernames = []
+
+    if username != "":
+        users = list(User.objects.exclude(username__in=Group.objects.get(id=id).users.all().values_list('username')).filter(username__icontains=username))
+        print(Group.objects.get(id=id).users.all().values_list('username'))
+        for user in users:
+            usernames.append(user.username)
+
+    return JsonResponse(usernames, safe=False)
