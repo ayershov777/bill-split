@@ -41,7 +41,8 @@
             });
 
 
-            $("#editable-select").on('change input', () => {
+            $("#editable-select").on('change input', function () {
+                console.log()
                 $.ajax({
                     url: "{% url 'search_users' group.id %}",
                     data: { username: $(this).val() }
@@ -64,6 +65,7 @@
                     usernames.push(p.textContent);
                 })
                 usernames = usernames.join('-');
+                
                 $.ajax({
                     url: "{% url 'group_detail' group.id %}",
                     method: "POST",
@@ -71,7 +73,6 @@
                         'username' : usernames
                     }
                 }).done(response => {
-                    console.log(response);
                     location.href = '/groups/{{group.id}}'
                 });
             });
