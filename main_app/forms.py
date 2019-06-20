@@ -10,4 +10,9 @@ class SignupForm(UserCreationForm):
 class GroupCreateForm(ModelForm):
     class Meta:
         model = Group
-        fields = ['title', 'users']
+        fields = ['title']
+
+class AddUserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username']
