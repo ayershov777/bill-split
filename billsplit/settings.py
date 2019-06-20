@@ -77,7 +77,8 @@ WSGI_APPLICATION = 'billsplit.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'billsplit'
+        'NAME': 'billsplit',
+        'USER': 'postgres'
     }
 }
 
@@ -124,3 +125,4 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
+

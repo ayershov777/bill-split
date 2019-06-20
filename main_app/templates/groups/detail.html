@@ -15,6 +15,19 @@
         <h3>You are up to date on all payments</h3>
     {% endif %}
     
+    <table>
+        <tr>
+            <th>payer</th>
+            <th>amount</th>
+            <th>split with</th>
+        </tr>
+        {% for split in splits %}
+            <td>{{ split.payer.username }}</td>
+            <td>{{ split.amount }}</td>
+            <td>{{ split.users }}</td>
+        {% endfor %}
+    </table>
+    
     <div id="split-bill-form">
         <label>amount<label>
         <input id="amount" type="number">
@@ -104,8 +117,17 @@
 
             // add users to group
             $('#editable-select').editableSelect().on('select.editable-select', function(e, li) {
-                $('#editable-select').val("");
-                $('#staged-users').append(`<li>${li[0].textContent}</li>`)
+                $stage = $('#staged-users');
+                user = `<li>${li[0].textContent}</li>`
+
+                duplicate_user = $stage.children().toArray().find(e => {
+                    return e.textContent === li[0].textContent
+                });
+
+                if(!duplicate_user) {
+                    $('#editable-select').val("");
+                    $('#staged-users').append(user)
+                }
             });
 
             $('#editable-select').on('change input', function () {
