@@ -11,8 +11,3 @@ class GroupCreateForm(ModelForm):
     class Meta:
         model = Group
         fields = ['title', 'users']
-
-class AddUserForm(ModelForm):
-    class Meta:
-        model = User
-        fields = ['username']
