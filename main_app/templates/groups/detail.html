@@ -1,19 +1,35 @@
 
 {% extends 'base.html' %}
 {% block content %}
-
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     
-
     <h1>{{ group.title }}</h1>
 
-    <ul>
-        {% for user in users %}
-            <li>
-                {{ user.username }}
-            </li>
-        {% endfor %}
-    </ul>
+    {% if standing == 'positive' %}
+        <h3>The group owes you ${{ amount }}</h3>
+    {% elif standing == 'negative' %}
+        <h3>You owe the group ${{ amount }}</h3>
+        <input id="payment" type="number">
+        <button id="pay" class="btn">Pay now</button>
+    {% else %}
+        <h3>You are up to date on all payments</h3>
+    {% endif %}
+    
+    <div id="split-bill-form">
+        <label>amount<label>
+        <input id="amount" type="number">
+        <div class="select-users">
+            {% for user in users %}
+                {% if user.username != request.user.username %}
+                    <label class="checkbox-wrapper" data-username="{{ user.username }}">
+                        <input type="checkbox" class="filled-in" />
+                        <span>{{ user.username }}</span>
+                    </label>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <button id="split" class="btn">split</button>
+    </div>
 
     <select id="editable-select">
     </select>
@@ -21,7 +37,7 @@
     <button id="submit-usernames" class="btn">send</button>
 
     <ul id="staged-users">
-    </ul>
+    </ul>    
 
 {% block javascript %}
     <script>
@@ -39,27 +55,80 @@
                 }
             });
 
+            // make payment
+            $payment = $('input#payment')
+            $pay = $('button#pay')
+
+            $pay.on('click', e => {
+                $.ajax({
+                    url: "{% url 'make_payment' group.id %}",
+                    method: 'POST',
+                    data: {
+                        amount: $payment.val()
+                    }
+                }).done(response => {
+                    location.href = "{% url 'group_detail' group.id %}"
+                });
+            });
+
+            // split
+            $amount = $('input#amount');
+            $split = $('button#split');
+            userSelectGroup = $('.select-users').children().toArray();
+
+            function getSelectValue() {
+                value = ['{{ request.user.username }}']
+                for(let i=0; i<userSelectGroup.length; i++) {
+                    $user = $(userSelectGroup[i]);
+                    checked = $user.children()[0].checked
+                    if(checked){
+                        username = $user.attr('data-username');
+                        value.push(username);
+                    }
+                }
+                return value.join('-')
+            }
+
+            $split.on('click', e => {
+                $.ajax({
+                    url: "{% url 'split_bill' group.id %}",
+                    method: "POST",
+                    data: {
+                        amount: $amount.val(),
+                        usernames: getSelectValue()
+                    }
+                }).done(response => {
+                    location.href = "{% url 'group_detail' group.id %}"
+                });
+            });
+
+            // add users to group
             $('#editable-select').editableSelect().on('select.editable-select', function(e, li) {
+                $('#editable-select').val("");
                 $('#staged-users').append(`<li>${li[0].textContent}</li>`)
             });
 
+            $('#editable-select').on('change input', function () {
+                search_length = $('#editable-select').val().length
+                if(search_length === 0)
+                    $('#editable-select').editableSelect('hide');
+                else if(search_length >= 3)
+                    $.ajax({
+                        url: "{% url 'search_users' group.id %}",
+                        data: { username: $(this).val() }
+                    }).done(response => {
+                        usernames = []
+                        $('.es-list').children().toArray().forEach((e)=>{
+                            usernames.push(e.textContent);
+                        });
 
-            $("#editable-select").on('change input', function () {
-                console.log()
-                $.ajax({
-                    url: "{% url 'search_users' group.id %}",
-                    data: { username: $(this).val() }
-                }).done(response => {
-                    usernames = []
-                    $('.es-list').children().toArray().forEach((e)=>{
-                        usernames.push(e.textContent);
-                    });
+                        response.forEach(username => {
+                            if(!usernames.includes(username))
+                                $('#editable-select').editableSelect('add', username);
+                        });
 
-                    response.forEach(username => {
-                        if(!usernames.includes(username))
-                            $('#editable-select').editableSelect('add', username);
+                        $('#editable-select').editableSelect('show');
                     });
-                });
             });
 
             $('#submit-usernames').on('click', e => {
@@ -77,6 +146,7 @@
                     }
                 }).done(response => {
                     location.href = '/groups/{{group.id}}'
+
                 });
             });
         });

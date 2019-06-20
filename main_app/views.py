@@ -4,8 +4,8 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
 from django.http import HttpResponse, JsonResponse
-from .models import User, Group
-from .forms import SignupForm, GroupCreateForm, AddUserForm
+from .models import User, Group, Payment
+from .forms import SignupForm, GroupCreateForm
 
 def home(request):
     if(request.user.is_authenticated):
@@ -61,15 +61,49 @@ def group_detail(request, id):
     group = Group.objects.get(id=id)
     username = request.user.username
     if group.users.filter(username=username):
-        user_form = AddUserForm
         users = group.users.all()
+        payment = Payment.objects.filter(group=group, holder=request.user)
+        if len(payment) == 0:
+            amount = 0
+        else:
+            amount = float(payment[0].amount)
+
+        if amount > 0:
+            standing = "positive"
+        elif amount < 0:
+            standing = "negative"
+            amount = -amount
+        else:
+            standing = "balanced"
+
         return render(request, 'groups/detail.html', {
-            'user_form': user_form,
             'group': group,
-            'users': users
+            'users': users,
+            'amount': amount,
+            'standing': standing
         })
     else:
         return HttpResponse("You can't access this page")
+
+def make_payment(request, id):
+    group = Group.objects.get(id=id)
+    amount = float(request.POST.get('amount', 0))
+    Payment.make_payment(group, request.user, amount)
+    return HttpResponse('ok')
+
+def split_bill(request, id):
+    group = Group.objects.get(id=id)
+    usernames = request.POST.get('usernames', '').split('-')
+    amount = float(request.POST.get('amount', 0))
+
+    users = []
+    for username in usernames:
+        user = User.objects.get(username=username)
+        users.append(user)
+
+    Payment.split_bill(amount, group, users)
+
+    return HttpResponse('ok')
 
 def search_users(request, id):
     username = request.GET.get('username', "")
