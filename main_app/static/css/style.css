@@ -3,6 +3,7 @@
     box-sizing: border-box;
 }
 
+<<<<<<< HEAD
 body{
     background-color: rgb(236, 245, 245);
     max-height: 100vh;
@@ -13,75 +14,166 @@ main{
     display: flex;
     flex: 1 0 auto;
 }
+=======
+body {
+    display: flex;
+    max-height: 100vh;
+    flex-direction: column;
+    background-color: rgb(209, 232, 231);
+  }
+
+>>>>>>> 7a88debd7847b344d39e6e8d7be8996c6d936468
 #main-page{
-    flex: 1 0 auto;
     background-image: url(https://i.imgur.com/l6YqpCN.png);
     background-size: cover;
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
+    height: 100vh;
     background-repeat: no-repeat;
     background-position: center;
-    margin: -20px 5px 0px 0px;
 }
-#heading{
+.heading{
     font-family: 'Germania One', cursive;
+    margin: 0px;
     color: rgb(24, 19, 95);
     font-size: 11vh;
     margin-left: 20px;
+    padding-top: 15px;
     
 }
 #dollar{
     font-size: 13vh;
 }
-#tag{
+.tag{
     font-family: 'Germania One', cursive;
     color: rgb(17, 104, 78);
-    margin-top: -20px;
+    margin-top: 0px;
     margin-left: 20px;
     font-size: 2vw;
 
 }
 img{
-   
     transform: rotate(35deg);
 }
 .image{
     position: fixed;
     bottom: 0px;
-    left: 52vw;
-    width: 60vw;
+    left: 40vw;
+    width: 70vw;
 }
+  
+footer.page-footer {
+    padding-top: 0;
+
+    text-align: center;
+    font-size: 30px;
+
+}
+.footer{
+    background-color: rgb(24, 19, 95);
+    height: 30px;
+    /* font-size: 30px; */
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: 4.5%;
+    padding: 20px;
+    
+}
+
 .button{
     background-color: rgb(24, 19, 95);
     color: white;
-    font-size: 20px;
+    font-size: 2.5em;
     width: max-content;
     padding: 10px;
-    border-radius: 3px;
+    border: 2px solid rgb(24, 19, 95);
+    border-radius: 6px;
     transition: all 0.3s ease 0s;
+}
+.button:hover{
+    background-color: rgb(136, 201, 201);
+    color: black;
+    cursor: pointer;
 }
 #signup, #login{
     position: sticky;
     top:40vw;
     margin-left: 20px;
 }
-.about{
-    background-color: rgb(218, 247, 244)
+.pop-up{
+    background-color: rgb(236, 245, 245);
+}
+.hamburger{
+    float:right;
+    margin-top: -4%;
+    position: fixed;
+    margin-right: 15px;
+    right: 20px;
+    font-size: 40px;
+    color: rgb(24, 19, 95);
+}
+.hamburger:hover{
+    color: red;
 }
 #about-btn{
     float:right;
-    margin-top:-15vh;
+    margin-top: -17vh;
     margin-right: 20px;
     position: sticky;
     left: 95vw;
 }
-.footer{
-    background-color: rgb(24, 19, 95);
-    font-family: 'Germania One', cursive;
-    font-size: 1vw;
-    color: white;
-    padding: 3px 0px;
+
+.input-form{
+    width: 40vw;
+    padding: 15px;
 }
+.input-form>label{
+    color: rgb(17, 104, 78);
+    font-size: 20px;
+    font-weight: bold;
+    font-size: 20px;
+}
+.wrap-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+   
+}
+.wrap-form>form{
+    margin-top: 3vh;
+    padding: 20px;
+    border: 5px solid black;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px;
+}
+.wrap-form>form>input{
+    margin: 20px 0 0 10px;;
+}
+.errorlist>li, .error{
+    color: red;
+}
+.error{
+    margin-left: 15px;
+}
+
+#create-group-form{
+    display: none;
+}
+.display{
+    display: inline;
+}
+
+
+
+
+
+
+/* ---------------------------- RESPONSIVE MEDIA QUERY ---------------------------- */
+
 @media screen and (max-width: 800px) {
     .image{
         display: none;
@@ -90,11 +182,11 @@ img{
     #heading{
         font-size: 10vw;
     }
-    #tag{
-        font-size: 4vw;
+    .tag{
+        font-size: 25px;
     }
     #dollar{
-        font-size: 13vw;
+        font-size: 20vw;
     }
     .footer{
         font-size: 2vh;
@@ -105,7 +197,14 @@ img{
     }
     #about-btn{
         position: sticky;
-        margin-top: -120px;
+        margin-top: -14vh;
 
     }
+    .input-form{
+        width: 60vw;
+    }
+    .hamburger{
+        margin-top: -13%;
+    }
+    
 }
