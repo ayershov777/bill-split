@@ -3,7 +3,6 @@
     box-sizing: border-box;
 }
 
-<<<<<<< HEAD
 body{
     background-color: rgb(236, 245, 245);
     max-height: 100vh;
@@ -14,15 +13,6 @@ main{
     display: flex;
     flex: 1 0 auto;
 }
-=======
-body {
-    display: flex;
-    max-height: 100vh;
-    flex-direction: column;
-    background-color: rgb(209, 232, 231);
-  }
-
->>>>>>> 7a88debd7847b344d39e6e8d7be8996c6d936468
 #main-page{
     background-image: url(https://i.imgur.com/l6YqpCN.png);
     background-size: cover;
