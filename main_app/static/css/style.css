@@ -3,16 +3,13 @@
     box-sizing: border-box;
 }
 
-body{
-    background-color: rgb(236, 245, 245);
-    max-height: 100vh;
-    
-}
-main{
-    width: 100%;
+body {
     display: flex;
-    flex: 1 0 auto;
-}
+    max-height: 100vh;
+    flex-direction: column;
+    background-color: rgb(209, 232, 231);
+  }
+
 #main-page{
     background-image: url(https://i.imgur.com/l6YqpCN.png);
     background-size: cover;
