@@ -42,7 +42,7 @@ def group_create(request):
     title = request.POST.get("title", None)
     group = Group.objects.create(title=title)
     group.users.add(request.user)
-    return redirect(f'/groups/{group.id}')
+    return redirect('/')
 
 
 @login_required
