@@ -23,13 +23,15 @@
         <p class="tag"style="font-size:30px;">You have no groups yet.
         <br> Let's start by creating group.</p>
     {% else %}
-        <ul>
+        <div>
         {% for group in groups %}
-                <a href="{% url 'group_detail' group.id %}" class="group-name"><li id="group-name">{{ group.title }}
-            </li></a>
-      
+            <div class="group-info">
+                <a href="{% url 'group_detail' group.id %}" class="group-name">
+                    <span id="group-name">{{ group.title }}</span>
+                </a>
+            </div>
         {% endfor %}
-        </ul>
+        </div>
     {% endif %}
         <br>
         <br>
