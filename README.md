@@ -27,5 +27,5 @@ Aibek Zhumabekov - [Designer](//www.linkedin.com/in/aibekzhumabekov/) | Shiva Dh
 ![Landing page]()
 ![SignUp]()
 ![Login]()
-![Group page]()
-
+![Create group]()
+![User page]()
