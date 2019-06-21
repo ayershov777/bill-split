@@ -2,7 +2,7 @@
 {% block content %}
 
 
-    <h1 class="heading" style="font-size:70px;" >Hello {{ user.first_name }}.</h1>
+    <h1 class="heading" style="font-size:70px;text-transform:capitalize;" >Hello {{ user.first_name }}.</h1>
     
     <!-- SIDE NAV BAR START -->
 
@@ -11,12 +11,31 @@
         <div class="background">
         </div>
         <a href="{% url 'logout' %}" class="tag">Logout</a>
-        <li><a class="waves-effect" href="#!">Edit Profile</a></li>
-    </ul>
+        <!-- Edit Info Modal -->
+        <li><a class="waves-effect waves-light modal-trigger" href="#modal5">Edit Profile</a></li>
+
+      
+        
+            </ul>
 
     <a href="#" data-target="slide-out" class="sidenav-trigger hamburger"><i class="fas fa-bars"></i></a>
 
   <!-- SIDE NAV BAR END -->
+
+
+          <!-- Update Profile -->
+    <div id="modal5" class="modal">
+            <div class="modal-content">
+            <h4 class="tag">EDIT PROFILE</h4>
+            <form action="{% url 'edit_user' %}" method="POST">
+            {% csrf_token %}
+            {{ edit_user_form.as_table }}
+            <input type="submit" value="Confirm" class="button" style="font-size:15px">
+            </form>
+            </div>
+        </div>
+
+
 
 
     {% if groups.count == 0 %}

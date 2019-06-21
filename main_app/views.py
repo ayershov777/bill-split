@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
 from django.http import HttpResponse, JsonResponse
 from .models import User, Group, Payment, Split
-from .forms import SignupForm, GroupCreateForm
+from .forms import SignupForm, GroupCreateForm, EditUserForm
 from decimal import *
 from datetime import date
 
@@ -13,9 +13,11 @@ def home(request):
     if(request.user.is_authenticated):
         groups = User.objects.get(id=request.user.id).group_set.all()
         group_create_form = GroupCreateForm()
+        edit_user_form = EditUserForm()
         return render(request, 'users/detail.html', {
             'groups': groups,
-            'group_create_form': group_create_form
+            'group_create_form': group_create_form,
+            'edit_user_form': edit_user_form
         })
     else:
         return render(request, 'home.html')
@@ -39,6 +41,17 @@ def signup(request):
     form = SignupForm()
     context = {'form': form}
     return render(request, 'registration/signup.html', context)
+
+def edit_user(request):
+    form = EditUserForm(request.POST)
+    if form.is_valid():
+        user = request.user
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.save()
+    return redirect('/')
+
 
 def group_create(request):
     title = request.POST.get("title", None)

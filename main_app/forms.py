@@ -12,7 +12,7 @@ class GroupCreateForm(ModelForm):
         model = Group
         fields = ['title']
 
-class AddUserForm(ModelForm):
+class EditUserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['first_name', 'last_name', 'email']
