@@ -67,7 +67,7 @@ def group_detail(request, id):
         if len(payment) == 0:
             amount = 0
         else:
-            amount = float(payment[0].amount)
+            amount = Decimal(payment[0].amount)
 
         if amount > 0:
             standing = "positive"
@@ -96,7 +96,7 @@ def make_payment(request, id):
 def split_bill(request, id):
     group = Group.objects.get(id=id)
     usernames = request.POST.get('usernames', '')
-    amount = float(request.POST.get('amount', 0))
+    amount = Decimal(request.POST.get('amount', 0))
 
     split = Split(group=group, payer=request.user, users=usernames, amount=amount)
     split.save()
