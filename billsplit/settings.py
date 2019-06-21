@@ -77,8 +77,7 @@ WSGI_APPLICATION = 'billsplit.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'billsplit',
-        'USER': 'postgres'
+        'NAME': 'billsplit'
     }
 }
 

@@ -144,18 +144,59 @@ footer.page-footer {
     color: red;
 }
 .error{
+    color: red;
     margin-left: 15px;
 }
 
-#create-group-form{
+/* #create-group-form{
     display: none;
-}
+} */
 .display{
     display: inline;
 }
 
+#create-group-btn{
+    margin-left: 30px;
+}
 
+.group-info {
+    display: inline-block;
+}
 
+#group-name {
+    font-size: 20px;
+    font-family: 'Germania One', cursive;
+    color :rgb(24, 19, 95);
+    text-transform: uppercase;
+    font-size: 35px;
+}
+
+.group-name {
+    height: 270px;
+    width: 270px;
+    border-radius: 50%;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 20px 0px 20px;
+    border: 5px solid rgb(24, 19, 95)n;
+    background-color: rgb(236, 245, 245);
+    box-shadow: 10px 10px 10px;
+}
+
+#create-group-form>form>label{
+    font-family: 'Germania One', cursive;
+    color: rgb(24, 19, 95);
+    font-size: 40px;
+}
+.create-group-btn{
+    font-size: 20px;
+}
+.navbar{
+    background-color: rgb(236, 245, 245);
+}
 
 
 
