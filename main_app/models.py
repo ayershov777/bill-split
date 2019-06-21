@@ -61,3 +61,5 @@ class Split(models.Model):
     payer = models.ForeignKey(User, on_delete=models.CASCADE)
     users = models.CharField(max_length=9999)
     amount = models.DecimalField(max_digits=12, decimal_places=2) #amount B owes to A
+    date = models.DateField()
+    spent_on = models.CharField(max_length=20)
