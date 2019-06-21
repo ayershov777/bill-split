@@ -144,20 +144,120 @@ footer.page-footer {
     color: red;
 }
 .error{
+    color: red;
     margin-left: 15px;
 }
 
-#create-group-form{
+/* #create-group-form{
     display: none;
-}
+} */
 .display{
     display: inline;
 }
 
+#create-group-btn{
+    margin-left: 30px;
+}
 
+.group-info {
+    display: inline-block;
+}
 
+#group-name {
+    font-size: 20px;
+    font-family: 'Germania One', cursive;
+    color :rgb(24, 19, 95);
+    text-transform: uppercase;
+    font-size: 35px;
+}
 
+.group-name {
+    height: 270px;
+    width: 270px;
+    border-radius: 50%;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 20px 0px 20px;
+    border: 5px solid rgb(24, 19, 95);
+    background-color: rgb(236, 245, 245);
+    box-shadow: 10px 10px 10px;
+}
 
+#create-group-form>form>label{
+    font-family: 'Germania One', cursive;
+    color: rgb(24, 19, 95);
+    font-size: 40px;
+}
+.create-group-btn{
+    font-size: 20px;
+}
+.navbar{
+    background-color: rgb(236, 245, 245);
+}
+
+#staged-users>li{
+    font-size: 30px;
+    color: rgb(17, 104, 78);
+    text-transform: capitalize;
+}
+#payment, #pay{
+    margin-left: 25px;
+    width: 30%;
+}
+#paid-user{
+    text-transform: uppercase;
+}
+#group-summary{
+    margin-left: 25px;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 34px;
+    color: rgb(24, 19, 95);
+    font-family: 'Germania One', cursive;
+}
+.table-head{
+    color: rgb(17, 104, 78);
+    font-weight: bold;
+    font-size: 25px;
+    font-family: 'Germania One', cursive;
+    padding-left:15px;
+}
+.table-item{
+    font-weight: bold;
+    font-size: 20px;
+
+}
+#main-head{
+    width: 70%;
+    margin: 10px 15px;
+    border: 2px solid gray;
+    box-shadow: 6px 6px 10px 5px;
+    padding: 10px 20px;
+}
+.table-head>th, .table-item>td{
+    padding: 10px 30px ;   
+}
+.expense-tag{
+    font-family: 'Germania One', cursive;
+    color: rgb(17, 104, 78);
+    font-size: 20px;
+}
+.sharing-user{
+    font-family: 'Germania One', cursive;
+    color: rgb(24, 19, 95);
+    /* font-size: 2rem; */
+}
+[type="checkbox"]+span:not(.lever){
+    font-size: 2rem;
+    text-transform: capitalize;
+}
+#editable-select{
+    font-size: 20px;
+    text-transform: capitalize;
+}
 
 /* ---------------------------- RESPONSIVE MEDIA QUERY ---------------------------- */
 
@@ -193,5 +293,6 @@ footer.page-footer {
     .hamburger{
         margin-top: -13%;
     }
+
     
 }

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
@@ -11,7 +12,7 @@ class Group(models.Model):
 class Payment(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     holder = models.ForeignKey(User, on_delete=models.CASCADE)
-    amount = models.IntegerField()
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
 
     @classmethod
     def make_payment(cls, group, user, amount):
@@ -54,3 +55,11 @@ class Payment(models.Model):
         Payment.__updatePayment(group, holder, user_owed)
         for user in users[1:]:
             Payment.__updatePayment(group, user, -split_amount)
+
+class Split(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    payer = models.ForeignKey(User, on_delete=models.CASCADE)
+    users = models.CharField(max_length=9999)
+    amount = models.DecimalField(max_digits=12, decimal_places=2) #amount B owes to A
+    date = models.DateField()
+    spent_on = models.CharField(max_length=20)

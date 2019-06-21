@@ -10,13 +10,13 @@ $(document).ready(function(){
 
 
 
-  $('#create-group-btn').on('click', function(){
-    $('#create-group-btn').css({ 'display' : 'none'});
-    $('#create-group-form').css({ 'display' : 'inline'});
-  })
+//   $('#create-group-btn').on('click', function(){
+//     $('#create-group-btn').css({ 'display' : 'none'});
+//     $('#create-group-form').css({ 'display' : 'inline'});
+//   })
 
 
 
-$('.create-group-btn').on('click', function(){
-  $('#create-group-form').css({ 'display' : 'none'});
-})
+// $('.create-group-btn').on('click', function(){
+//   $('#create-group-form').css({ 'display' : 'none'});
+// })

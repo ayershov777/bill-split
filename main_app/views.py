@@ -4,8 +4,10 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
 from django.http import HttpResponse, JsonResponse
-from .models import User, Group, Payment
+from .models import User, Group, Payment, Split
 from .forms import SignupForm, GroupCreateForm
+from decimal import *
+from datetime import date
 
 def home(request):
     if(request.user.is_authenticated):
@@ -66,7 +68,7 @@ def group_detail(request, id):
         if len(payment) == 0:
             amount = 0
         else:
-            amount = float(payment[0].amount)
+            amount = Decimal(payment[0].amount)
 
         if amount > 0:
             standing = "positive"
@@ -80,24 +82,28 @@ def group_detail(request, id):
             'group': group,
             'users': users,
             'amount': amount,
-            'standing': standing
+            'standing': standing,
+            'splits': Split.objects.filter(group=group)
         })
     else:
         return HttpResponse("You can't access this page")
 
 def make_payment(request, id):
     group = Group.objects.get(id=id)
-    amount = float(request.POST.get('amount', 0))
+    amount = Decimal(request.POST.get('amount', 0))
     Payment.make_payment(group, request.user, amount)
     return HttpResponse('ok')
 
 def split_bill(request, id):
     group = Group.objects.get(id=id)
-    usernames = request.POST.get('usernames', '').split('-')
-    amount = float(request.POST.get('amount', 0))
+    usernames = request.POST.get('usernames', '')
+    amount = Decimal(request.POST.get('amount', 0))
+    spent_on = request.POST.get('spent_on', '')
+    split = Split(group=group, payer=request.user, users=usernames, amount=amount, spent_on=spent_on, date=date.today())
+    split.save()
 
     users = []
-    for username in usernames:
+    for username in usernames.split('-'):
         user = User.objects.get(username=username)
         users.append(user)
 

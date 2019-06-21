@@ -3,41 +3,123 @@
 {% block content %}
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     
-    <h1>{{ group.title }}</h1>
+    <h1 class="heading" style="font-size:80px;text-transform:uppercase">{{ group.title }}</h1>
 
+     <ul id="slide-out" class="sidenav navbar">
+        <li><div class="user-view">
+        <div class="background">
+        </div>
+        <a href="{% url 'logout' %}" class="tag">Logout</a>
+        <li><a class="waves-effect" href="#!">Edit Profile</a></li>
+        <li><a class="waves-effect" href="{% url 'home' %}">My Groups</a></li>
+    </ul>
+
+    <a href="#" data-target="slide-out" class="sidenav-trigger hamburger"><i class="fas fa-bars"></i></a>
+   
     {% if standing == 'positive' %}
-        <h3>The group owes you ${{ amount }}</h3>
+        <h3 class="tag">This group owes you ${{ amount }}.</h3>
     {% elif standing == 'negative' %}
-        <h3>You owe the group ${{ amount }}</h3>
-        <input id="payment" type="number">
-        <button id="pay" class="btn">Pay now</button>
+
+        <h3 class="tag" style="color:red">You owe the group ${{ amount }}.</h3>
+        <a class="waves-effect waves-light button modal-trigger" href="#modal1" style="font-size: 20px;margin-left:20px;">Pay Group</a>
+            <div id="modal1" class="modal">
+                <div class="modal-content">
+                    <p class="tag">Enter Amount</p>
+                    <span style="font-size:20px;">$</span>   <input id="payment" type="number">
+                    <button id="pay" class="button">Pay Group</button>
+                </div>
+                </div>
+            </div>
+    <br>
+    <br>
+    <br>
+
     {% else %}
-        <h3>You are up to date on all payments</h3>
+        <h3 class="tag">You are up to date on all payments</h3>
     {% endif %}
     
-    <div id="split-bill-form">
-        <label>amount<label>
-        <input id="amount" type="number">
-        <div class="select-users">
-            {% for user in users %}
-                {% if user.username != request.user.username %}
-                    <label class="checkbox-wrapper" data-username="{{ user.username }}">
-                        <input type="checkbox" class="filled-in" />
-                        <span>{{ user.username }}</span>
-                    </label>
-                {% endif %}
-            {% endfor %}
+
+    <!--  Display Table -->
+    <p id="group-summary">Group Summary</p>
+    <hr>
+    <br>
+    <table id="main-head">
+        <thead>
+            <tr class="table-head">
+                <th>DATE</th>
+                <th>PAID BY</th>
+                <th>SPENT ON</th>
+                <th>AMOUNT TOTAL</th>
+                <th>SPLIT WITH</th>
+                
+            </tr>
+        </thead>
+        {% for split in splits %}
+        <tbody>
+            <tr class="table-item">
+                <td>{{ split.date }}</td>
+                <td id="paid-user">{{ split.payer.first_name }}</td>
+                <td style="text-transform:capitalize">{{ split.spent_on }}</td>
+                <td>$ {{ split.amount }}</td>
+                <td style="text-transform:capitalize">{{ split.users }}</td>
+            </tr>
+        <tbody>
+        {% endfor %}
+    </table>
+<br>
+    <!-- Split bill form -->
+
+ <a class="waves-effect waves-light button modal-trigger" href="#modal2" style="font-size: 20px;margin-left:20px;">Add Expense</a>
+        <div id="modal2" class="modal">
+            <div class="modal-content">
+                    <div id="split-bill-form">
+                        <label class="expense-tag">Amount<label>
+                        <input id="amount" type="number">
+                         <label class="expense-tag">Spent On<label>
+                        <input type='text' id="spent-on">
+                        <br>
+                        <br>
+                        <label class="expense-tag">Split With</label>
+                        <br>
+                        <br>
+                        <div class="select-users">
+                            {% for user in users %}
+                            {% if user.username != request.user.username %}
+                                <label class="checkbox-wrapper" data-username="{{ user.username }}">
+                                    <input type="checkbox" class="filled-in" />
+                                    <span class="sharing-user">{{ user.username }}</span>
+                                    <br>
+                                    <br>
+                                </label>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <button id="split" class="button">Add Expense</button>
+                </div>
+            </div>
         </div>
-        <button id="split" class="btn">split</button>
+<br>
+<br>
+
+    <a class="waves-effect waves-light button modal-trigger" href="#modal3" style="font-size: 20px;margin-left:20px;">Add Group Members</a>
+
+    <!-- Modal Structure -->
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+        <p class="tag" style="margin-left:-7px">Enter Username</p>
+        <select id="editable-select">
+        </select>
+
+        
+
+        <ul id="staged-users">
+        </ul>    
+        </div>
+        <button id="submit-usernames" class="button" style="font-size: 20px;margin-left:20px;">Add Member</button>
+        <br>
+        <br>
     </div>
 
-    <select id="editable-select">
-    </select>
-
-    <button id="submit-usernames" class="btn">send</button>
-
-    <ul id="staged-users">
-    </ul>    
 
 {% block javascript %}
     <script>
@@ -95,7 +177,8 @@
                     method: "POST",
                     data: {
                         amount: $amount.val(),
-                        usernames: getSelectValue()
+                        usernames: getSelectValue(),
+                        spent_on: $('#spent-on').val()
                     }
                 }).done(response => {
                     location.href = "{% url 'group_detail' group.id %}"
@@ -104,8 +187,17 @@
 
             // add users to group
             $('#editable-select').editableSelect().on('select.editable-select', function(e, li) {
-                $('#editable-select').val("");
-                $('#staged-users').append(`<li>${li[0].textContent}</li>`)
+                $stage = $('#staged-users');
+                user = `<li>${li[0].textContent}</li>`
+
+                duplicate_user = $stage.children().toArray().find(e => {
+                    return e.textContent === li[0].textContent
+                });
+
+                if(!duplicate_user) {
+                    $('#editable-select').val("");
+                    $('#staged-users').append(user)
+                }
             });
 
             $('#editable-select').on('change input', function () {

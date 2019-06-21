@@ -2,22 +2,16 @@
 {% block content %}
 
 
-    <h1 class="heading" style="font-size:70px;" >Hello {{ user.username }}.</h1>
+    <h1 class="heading" style="font-size:70px;" >Hello {{ user.first_name }}.</h1>
     
     <!-- SIDE NAV BAR START -->
 
-    <ul id="slide-out" class="sidenav">
+    <ul id="slide-out" class="sidenav navbar">
         <li><div class="user-view">
         <div class="background">
         </div>
-        <a href="{% url 'logout' %}">Logout</a>
-        <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
-        </div></li>
-        <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-        <li><a href="#!">Second Link</a></li>
-        <li><div class="divider"></div></li>
-        <li><a class="subheader">Subheader</a></li>
-        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+        <a href="{% url 'logout' %}" class="tag">Logout</a>
+        <li><a class="waves-effect" href="#!">Edit Profile</a></li>
     </ul>
 
     <a href="#" data-target="slide-out" class="sidenav-trigger hamburger"><i class="fas fa-bars"></i></a>
@@ -29,28 +23,39 @@
         <p class="tag"style="font-size:30px;">You have no groups yet.
         <br> Let's start by creating group.</p>
     {% else %}
-        <ul>
+        <div>
         {% for group in groups %}
-            <li>
-                <a href="{% url 'group_detail' group.id %}">{{ group.title }}</a>
-            </li>
+            <div class="group-info">
+                <a href="{% url 'group_detail' group.id %}" class="group-name">
+                    <span id="group-name">{{ group.title }}</span>
+                </a>
+            </div>
         {% endfor %}
-        </ul>
+        </div>
     {% endif %}
+        <br>
+        <br>
+        <br>
+    <br>
+    <br>
+    <br>
+    <br>
+        <button data-target="modal1" class=" modal-trigger button waves-effect waves-light" id="about-btn">Create Group</button>
+            <div id="modal1" class="modal">
+                <div class="modal-content about">
+                    <div id="create-group-form">
+                        <form action="{% url 'group_create' %}" method="post" autocomplete="off">
+                            {% csrf_token %}
+                            <label >Group Name</label>
+                            {{ group_create_form.title }}
+                        
+                            <input type="submit" class="button create-group-btn" id= "grp-create-btn" value="Create">
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-    
-<button id="create-group-btn" class="button">Create Group</button>
-
-<div id="create-group-form">
-    <form action="{% url 'group_create' %}" method="post" autocomplete="off">
-        {% csrf_token %}
-        {{ group_create_form.title.label }}
-        {{ group_create_form.title }}
-        <input type="submit" class="button create-group-btn" value="Create">
-        <button id="cancel">Cancel</button>
-    </form>
-</div>
-
-
+            <br>
+            <br>
 
 {% endblock %}
