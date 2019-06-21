@@ -101,7 +101,7 @@ footer.page-footer {
     color: rgb(24, 19, 95);
 }
 .hamburger:hover{
-    color: red;
+    color: black;
 }
 #about-btn{
     float:right;
@@ -236,6 +236,7 @@ footer.page-footer {
     border: 2px solid gray;
     box-shadow: 6px 6px 10px 5px;
     padding: 10px 20px;
+    background-color: rgb(236, 245, 245);
 }
 .table-head>th, .table-item>td{
     padding: 10px 30px ;   
