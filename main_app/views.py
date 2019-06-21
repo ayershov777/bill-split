@@ -7,6 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from .models import User, Group, Payment, Split
 from .forms import SignupForm, GroupCreateForm
 from decimal import *
+from datetime import date
 
 def home(request):
     if(request.user.is_authenticated):
@@ -97,8 +98,8 @@ def split_bill(request, id):
     group = Group.objects.get(id=id)
     usernames = request.POST.get('usernames', '')
     amount = Decimal(request.POST.get('amount', 0))
-
-    split = Split(group=group, payer=request.user, users=usernames, amount=amount)
+    spent_on = request.POST.get('spent_on', '')
+    split = Split(group=group, payer=request.user, users=usernames, amount=amount, spent_on=spent_on, date=date.today())
     split.save()
 
     users = []
