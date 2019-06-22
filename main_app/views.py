@@ -4,7 +4,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
 from django.http import HttpResponse, JsonResponse
-from .models import User, Group, Payment, Split
+from .models import User, Group, Payment, Split, Notification
 from .forms import SignupForm, GroupCreateForm, EditUserForm
 from decimal import *
 from datetime import date
@@ -52,25 +52,26 @@ def edit_user(request):
         user.save()
     return redirect('/')
 
-
 def group_create(request):
     title = request.POST.get("title", None)
     group = Group.objects.create(title=title)
     group.users.add(request.user)
     return redirect('/')
 
-
 @login_required
 def group_detail(request, id):
     if request.method == 'POST':
         usernames = request.POST.get("username", "")
         usernames = usernames.split('-')
+        user_ids = []
         for username in usernames:
             userCount = User.objects.filter(username=username).count()
             if userCount:
                 user = User.objects.get(username=username)
+                user_ids.append(user.id)
                 group = Group.objects.get(id=id)
                 group.users.add(user)
+        Notification.send_notifications(0, request.user.id, group, User.objects.filter(id__in=user_ids))        
         return JsonResponse({'message' : 'ok'})
 
     group = Group.objects.get(id=id)
@@ -105,6 +106,7 @@ def make_payment(request, id):
     group = Group.objects.get(id=id)
     amount = Decimal(request.POST.get('amount', 0))
     Payment.make_payment(group, request.user, amount)
+    Notification.send_notifications(2, request.user.id, group, group.users.exclude(id=request.user.id), amount=amount)
     return HttpResponse('ok')
 
 def split_bill(request, id):
@@ -121,6 +123,7 @@ def split_bill(request, id):
         users.append(user)
 
     Payment.split_bill(amount, group, users)
+    Notification.send_notifications(1, request.user.id, group, group.users.exclude(id=request.user.id), spent_on=spent_on)
 
     return HttpResponse('ok')
 
@@ -134,3 +137,7 @@ def search_users(request, id):
             usernames.append(user.username)
 
     return JsonResponse(usernames, safe=False)
+
+def get_notifications(request):
+    notifications = request.user.notification_set.all()
+    return JsonResponse(notifications, safe=False)
