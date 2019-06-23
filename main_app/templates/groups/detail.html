@@ -276,7 +276,6 @@
 
                         $(`i[data-pk="${r.pk}"]`).on('click', e => {
                             notification_pk = $(e.target).attr('data-pk');
-                            console.log(notification_pk);
                             $.ajax({
                                 url: `{% url 'delete_notification' %}`,
                                 method: 'POST',
