@@ -172,8 +172,8 @@ footer.page-footer {
 }
 
 .group-name {
-    height: 270px;
-    width: 270px;
+    height: 235px;
+    width: 235px;
     border-radius: 50%;
     text-align: center;
     padding: 20px;
@@ -231,16 +231,21 @@ footer.page-footer {
 
 }
 #main-head{
-    width: 70%;
+  width: 70%;
     margin: 10px 15px;
     border: 2px solid gray;
     box-shadow: 6px 6px 10px 5px;
     padding: 10px 20px;
     background-color: rgb(236, 245, 245);
+ 
 }
+
+
+
 .table-head>th, .table-item>td{
     padding: 10px 30px ;   
 }
+
 .expense-tag{
     font-family: 'Germania One', cursive;
     color: rgb(17, 104, 78);
@@ -258,6 +263,30 @@ footer.page-footer {
 #editable-select{
     font-size: 20px;
     text-transform: capitalize;
+}
+#notification{
+    margin: 5px;
+}
+.notification-container{
+    background-color: rgb(226, 233, 233);
+    box-shadow: 2px 2px 5px rgb(24, 19, 95);
+    border-radius: 4px;
+    margin: 0px 3px;
+}
+.navbar>div>p{
+    margin-left: 30px;
+    padding-top: 15px;
+    font-family: 'Germania One', cursive;
+    color: rgb(24, 19, 95);
+    font-size: 25px;
+}
+#clear-btn{
+    margin: -40px 5px 0px 0px;
+    font-size: 20px;
+    float: right;
+    border-radius: 6px;
+    color: red;
+    padding: 5px 3px;
 }
 
 /* ---------------------------- RESPONSIVE MEDIA QUERY ---------------------------- */

@@ -140,4 +140,5 @@ def search_users(request, id):
 
 def get_notifications(request):
     notifications = request.user.notification_set.all()
-    return JsonResponse(notifications, safe=False)
+    data = serializers.serialize("json", notifications)
+    return JsonResponse(data, safe=False)

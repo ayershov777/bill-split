@@ -6,12 +6,18 @@
     <h1 class="heading" style="font-size:80px;text-transform:uppercase">{{ group.title }}</h1>
 
      <ul id="slide-out" class="sidenav navbar">
-        <li><div class="user-view">
-        <div class="background">
+        <li><div class="user-view"></div></li><hr>
+        <li><a class="waves-effect" href="#!">Edit Profile</a></li> <hr>
+        <li><a class="waves-effect" href="{% url 'home' %}">My Groups</a></li> <hr>
+        
+        <div><p>Notifications</p> <button id="clear-btn"><i class="fas fa-trash-alt"></i> </button></div>
+         <hr>
+        <div id="notifications">
+            
+        
         </div>
-        <a href="{% url 'logout' %}" class="tag">Logout</a>
-        <li><a class="waves-effect" href="#!">Edit Profile</a></li>
-        <li><a class="waves-effect" href="{% url 'home' %}">My Groups</a></li>
+        <hr>
+        <li><a class="waves-effect" href="{% url 'logout' %}">Log Out</a></li> <hr>
     </ul>
 
     <a href="#" data-target="slide-out" class="sidenav-trigger hamburger"><i class="fas fa-bars"></i></a>
@@ -43,7 +49,7 @@
     <p id="group-summary">Group Summary</p>
     <hr>
     <br>
-    <table id="main-head">
+    <table id="main-head" class="table-scroll small-first-col">
         <thead>
             <tr class="table-head">
                 <th>DATE</th>
@@ -98,6 +104,8 @@
                 </div>
             </div>
         </div>
+<br>
+<br>
 <br>
 <br>
 
@@ -242,6 +250,56 @@
                 });
             });
         });
+
+        
+        $('.hamburger').on('click', function() {
+            $.ajax({
+                url : "{% url 'get_notifications' %}"
+            }).done(response => {
+                response = JSON.parse(response);
+                //console.log(response)
+                response.forEach(r =>{
+                    notification = $('#notifications').children().toArray().find(e =>{
+                        console.log(e)
+                        console.log($(e).attr('data-pk') == r.pk)
+                        console.log($(e).attr('data-pk'))
+                        console.log(r.pk)
+                        return $(e).attr('data-pk') == r.pk
+                    });
+
+                    if (!notification){
+                        $('#notifications').append(
+                         $(
+                             `
+         
+
+                    
+                            <div class="card" data-pk=${r.pk}>
+                           
+                                <div class="card-content notification-container">
+                                   ${r.fields.message}
+                                   <div>
+                                   <i class="far fa-window-close"></i>
+                                   </div>
+                                </div>
+                                
+                            </div>
+
+                             `
+                         )
+                        )
+                        
+                    }
+                });
+            });
+        });
+
+
+        // Notofication Cards
+         {% comment %} <div data-pk=${r.pk}>
+                                ${r.fields.message}
+                                 </div>  {% endcomment %}
+    
     </script>
 {% endblock %}
 {% endblock %}

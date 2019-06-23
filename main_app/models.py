@@ -7,7 +7,7 @@ class User(AbstractUser):
     pass
 
 class Group(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=12)
     users = models.ManyToManyField(User)
 
 class Notification(models.Model):
