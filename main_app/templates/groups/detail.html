@@ -251,54 +251,53 @@
             });
         });
 
-        
+        // notifications
         $('.hamburger').on('click', function() {
             $.ajax({
                 url : "{% url 'get_notifications' %}"
             }).done(response => {
                 response = JSON.parse(response);
-                //console.log(response)
                 response.forEach(r =>{
                     notification = $('#notifications').children().toArray().find(e =>{
-                        console.log(e)
-                        console.log($(e).attr('data-pk') == r.pk)
-                        console.log($(e).attr('data-pk'))
-                        console.log(r.pk)
                         return $(e).attr('data-pk') == r.pk
                     });
 
                     if (!notification){
-                        $('#notifications').append(
-                         $(
-                             `
-         
-
-                    
+                        $('#notifications').append($(`
                             <div class="card" data-pk=${r.pk}>
-                           
                                 <div class="card-content notification-container">
-                                   ${r.fields.message}
-                                   <div>
-                                   <i class="far fa-window-close"></i>
-                                   </div>
+                                    ${r.fields.message}
+                                    <div>
+                                        <i class="far fa-window-close" data-pk=${r.pk}></i>
+                                    </div>
                                 </div>
-                                
                             </div>
+                        `));
 
-                             `
-                         )
-                        )
-                        
+                        $(`i[data-pk="${r.pk}"]`).on('click', e => {
+                            notification_pk = $(e.target).attr('data-pk');
+                            console.log(notification_pk);
+                            $.ajax({
+                                url: `{% url 'delete_notification' %}`,
+                                method: 'POST',
+                                data: {
+                                    'pk': notification_pk
+                                }
+                            }).done(response => {
+                                $(`.card[data-pk="${r.pk}"]`).remove();
+                            });
+                        });
                     }
                 });
             });
         });
 
-
-        // Notofication Cards
-         {% comment %} <div data-pk=${r.pk}>
-                                ${r.fields.message}
-                                 </div>  {% endcomment %}
+        $('#clear-btn').on('click', e => {
+            $.ajax("{% url 'clear_user_notifications' %}")
+            .done(response => {
+                $('#notifications').children().toArray().forEach(card => $(card).remove());
+            });
+        });
     
     </script>
 {% endblock %}

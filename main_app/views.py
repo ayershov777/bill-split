@@ -142,3 +142,15 @@ def get_notifications(request):
     notifications = request.user.notification_set.all()
     data = serializers.serialize("json", notifications)
     return JsonResponse(data, safe=False)
+
+def delete_notification(request):
+    pk = request.POST.get('pk', None)
+    notification = Notification.objects.get(id=pk)
+    notification.users.remove(request.user)
+    return HttpResponse('ok')
+
+def clear_user_notifications(request):
+    notifications = Notification.objects.filter(users=request.user)
+    for n in notifications:
+        n.users.remove(request.user)
+    return HttpResponse('ok')
