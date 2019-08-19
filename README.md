@@ -7,13 +7,13 @@
 
 ## Team Members 
 
-Aibek Zhumabekov - [CSS](//www.linkedin.com/in/aibekzhumabekov/) | Shiva Dhakal - [Designer](https://www.linkedin.com/in/shiva-dhakal/) | Anton Yershov -[Lead Developer](https://www.linkedin.com/in/anthony-yershov/) 
-## Links
+Aibek Zhumabekov - [CSS](//www.linkedin.com/in/aibekzhumabekov/) | Shiva Dhakal - [Designer](https://www.linkedin.com/in/shiva-dhakal/) | Anthony Yershov - Lead Programmer/Database Designer](https://www.linkedin.com/in/anthony-yershov/) 
 
-[Trello](https://trello.com/b/V3Vi0Xu7/thing-to-do)| [Website](https://bill-splitly.herokuapp.com/)
+## Link to the app
+Bill Split is being hosted for free by heroku, so it will take longer than usual to load the first page.
+https://bill-splitly.herokuapp.com
 
 ## Technology Used
-
 - Python
 - Django
 - CSS
@@ -22,8 +22,8 @@ Aibek Zhumabekov - [CSS](//www.linkedin.com/in/aibekzhumabekov/) | Shiva Dhakal 
 - Adobe
 - Materializecss
 - Heroku
-# Images
 
+# Images
 ![Landing page]()
 ![SignUp]()
 ![Login]()
