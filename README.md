@@ -10,7 +10,7 @@
 Aibek Zhumabekov - [CSS](//www.linkedin.com/in/aibekzhumabekov/) | Shiva Dhakal - [Designer](https://www.linkedin.com/in/shiva-dhakal/) | Anthony Yershov - [Lead Programmer/Database Designer](https://www.linkedin.com/in/anthony-yershov/) 
 
 ## Link to the app
-Bill Split is being hosted for free by heroku, so it will take longer than usual to load the first page.
+Bill Split is being hosted for free by heroku, so it will take longer than usual to load the first page.  
 https://bill-splitly.herokuapp.com
 
 ## Technology Used
