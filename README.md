@@ -7,7 +7,7 @@
 
 ## Team Members 
 
-Aibek Zhumabekov - [Designer](//www.linkedin.com/in/aibekzhumabekov/) | Shiva Dhakal - [Project Manager](https://www.linkedin.com/in/shiva-dhakal/) | Anton Yershov -[Developer](https://www.linkedin.com/in/anthony-yershov/) 
+Aibek Zhumabekov - [CSS](//www.linkedin.com/in/aibekzhumabekov/) | Shiva Dhakal - [Designer](https://www.linkedin.com/in/shiva-dhakal/) | Anton Yershov -[Lead Developer](https://www.linkedin.com/in/anthony-yershov/) 
 ## Links
 
 [Trello](https://trello.com/b/V3Vi0Xu7/thing-to-do)| [Website](https://bill-splitly.herokuapp.com/)
