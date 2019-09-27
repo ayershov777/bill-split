@@ -7,7 +7,7 @@
 
 ## Team Members 
 
-Aibek Zhumabekov - [CSS](//www.linkedin.com/in/aibekzhumabekov/) | Shiva Dhakal - [Designer](https://www.linkedin.com/in/shiva-dhakal/) | Anthony Yershov - [Lead Programmer/Database Designer](https://www.linkedin.com/in/anthony-yershov/) 
+Aibek Zhumabekov - [Look and Feel](//www.linkedin.com/in/aibekzhumabekov/) | Shiva Dhakal - [Product Design](https://www.linkedin.com/in/shiva-dhakal/) | Anthony Yershov - [Lead Programmer/Database Design](https://www.linkedin.com/in/anthony-yershov/) 
 
 ## Link to the app
 Bill Split is being hosted for free by heroku, so it will take longer than usual to load the first page.  
